@@ -7,6 +7,8 @@ import (
 
 type Vec2 [2]float64
 
+var Vec2Zero = Vec2{0.0, 0.0}
+
 func NewVec2(x, y float64) Vec2 {
 	return Vec2{x, y}
 }
@@ -15,11 +17,19 @@ func (v Vec2) Neg() Vec2 {
 	return Vec2{-v[0], -v[1]}
 }
 
-func (v Vec2) Add(other Vec2) Vec2 {
+func (v Vec2) Add(x, y float64) Vec2 {
+	return Vec2{v[0] + x, v[1] + y}
+}
+
+func (v Vec2) AddVec(other Vec2) Vec2 {
 	return Vec2{v[0] + other[0], v[1] + other[1]}
 }
 
-func (v Vec2) Sub(other Vec2) Vec2 {
+func (v Vec2) Sub(x, y float64) Vec2 {
+	return Vec2{v[0] - x, v[1] - y}
+}
+
+func (v Vec2) SubVec(other Vec2) Vec2 {
 	return Vec2{v[0] - other[0], v[1] - other[1]}
 }
 
@@ -48,7 +58,7 @@ func (v Vec2) Norm(length float64) Vec2 {
 }
 
 func (v Vec2) MoveTo(other Vec2, length float64) Vec2 {
-	return other.Sub(v).Norm(length).Add(v)
+	return other.SubVec(v).Norm(length).AddVec(v)
 }
 
 func (v Vec2) Interpolate(other Vec2, t float64) Vec2 {
