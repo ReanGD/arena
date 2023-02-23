@@ -130,8 +130,8 @@ func (m Mat3) Mul(o Mat3) Mat3 {
 
 func (m Mat3) MulVec(v Vec2) Vec2 {
 	return Vec2{
-		m[0]*v[0] + m[1]*v[1] + m[2],
-		m[3]*v[0] + m[4]*v[1] + m[5],
+		m[0]*v[0] + m[3]*v[1] + m[6],
+		m[1]*v[0] + m[4]*v[1] + m[7],
 	}
 }
 
