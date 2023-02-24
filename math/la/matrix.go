@@ -135,6 +135,13 @@ func (m Mat3) MulVec(v Vec2) Vec2 {
 	}
 }
 
+func (m Mat3) MulVertexDst(v []ebiten.Vertex) {
+	for i := 0; i != len(v); i++ {
+		v[i].DstX, v[i].DstY = float32(m[0]*float64(v[i].DstX)+m[3]*float64(v[i].DstY)+m[6]),
+			float32(m[1]*float64(v[i].DstX)+m[4]*float64(v[i].DstY)+m[7])
+	}
+}
+
 func (m Mat3) IsInvertible() bool {
 	return !Equal(m.Det(), 0.0)
 }
