@@ -1,8 +1,6 @@
 package sprite
 
 import (
-	"image"
-
 	"github.com/ReanGD/arena/math/la"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -13,11 +11,11 @@ type Sprite struct {
 	vs [4]ebiten.Vertex
 }
 
-func NewSprite(rcTex image.Rectangle, width, height float32) *Sprite {
-	u0 := float32(rcTex.Min.X)
-	v0 := float32(rcTex.Min.Y)
-	u1 := float32(rcTex.Max.X)
-	v1 := float32(rcTex.Max.Y)
+func NewSprite(rcTex la.Rect, width, height float32) *Sprite {
+	u0 := float32(rcTex.MinX())
+	v0 := float32(rcTex.MinY())
+	u1 := float32(rcTex.MaxX())
+	v1 := float32(rcTex.MaxY())
 
 	return &Sprite{
 		vs: [4]ebiten.Vertex{

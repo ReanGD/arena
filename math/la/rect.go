@@ -18,3 +18,19 @@ func (r Rect) CenterVec2() Vec2 {
 func (r Rect) Center() (int32, int32) {
 	return r.X + r.W/2, r.Y + r.H/2
 }
+
+func (r Rect) MinX() int32 {
+	return r.X
+}
+
+func (r Rect) MinY() int32 {
+	return r.Y
+}
+
+func (r Rect) MaxX() int32 {
+	return r.X + r.W
+}
+
+func (r Rect) MaxY() int32 {
+	return r.Y + r.H
+}
