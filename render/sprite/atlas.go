@@ -22,19 +22,19 @@ func newSquareSpriteAtlas(spriteSize int32, spritesPerRow int32) *squareSpriteAt
 	}
 }
 
-func (a *squareSpriteAtlas) next() (la.Rect, bool) {
+func (a *squareSpriteAtlas) next() (*SubImage, bool) {
 	if a.nextSprite >= a.spritesPerRow*a.spritesPerRow {
-		return la.Rect{}, false
+		return nil, false
 	}
 
 	spriteX := (a.nextSprite % a.spritesPerRow) * a.spriteSize
 	spriteY := (a.nextSprite / a.spritesPerRow) * a.spriteSize
 	a.nextSprite++
 
-	return la.NewRect(
+	return NewSubImage(a.img, la.NewRect(
 		spriteX,
 		spriteY,
 		a.spriteSize,
 		a.spriteSize,
-	), true
+	)), true
 }
