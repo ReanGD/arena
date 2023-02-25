@@ -8,16 +8,20 @@ import (
 type SpriteKey uint32
 
 type SpriteManager struct {
-	sprites []*Sprite
-	atlases map[uint32]*squareSpriteAtlas
-	images  map[uint32]*ebiten.Image
+	sprites   []*Sprite
+	atlases   map[uint32]*squareSpriteAtlas
+	images    map[uint32]*ebiten.Image
+	target    *ebiten.Image
+	matCamera la.Mat3
 }
 
 func NewSpriteManager() *SpriteManager {
 	return &SpriteManager{
-		sprites: make([]*Sprite, 0, 128),
-		atlases: make(map[uint32]*squareSpriteAtlas),
-		images:  make(map[uint32]*ebiten.Image),
+		sprites:   make([]*Sprite, 0, 128),
+		atlases:   make(map[uint32]*squareSpriteAtlas),
+		images:    make(map[uint32]*ebiten.Image),
+		target:    nil,
+		matCamera: la.Mat3One,
 	}
 }
 
@@ -58,7 +62,12 @@ func (m *SpriteManager) MakeSquareSprite(logOfSpriteSize uint32, width, height f
 	return SpriteKey(imageNum + spriteNum), img
 }
 
-func (m *SpriteManager) Draw(screen *ebiten.Image, projView la.Mat3, key SpriteKey, position la.Vec2) {
+func (m *SpriteManager) SetTarget(img *ebiten.Image, matCamera la.Mat3) {
+	m.target = img
+	m.matCamera = matCamera
+}
+
+func (m *SpriteManager) Draw(key SpriteKey, position la.Vec2) {
 	spriteNum := uint32(key) & 0x00ffffff
 	imageNum := uint32(key) >> 24
 	if spriteNum >= uint32(len(m.sprites)) {
@@ -68,5 +77,6 @@ func (m *SpriteManager) Draw(screen *ebiten.Image, projView la.Mat3, key SpriteK
 	if !ok {
 		panic("SpriteManager: no image for sprite")
 	}
-	m.sprites[spriteNum].Draw(screen, image, projView, position)
+
+	m.sprites[spriteNum].Draw(m.target, image, la.NewTranslateVec(position).Mul(m.matCamera))
 }

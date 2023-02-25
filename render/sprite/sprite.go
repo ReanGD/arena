@@ -63,7 +63,7 @@ func NewSprite(rcTex la.Rect, width, height float32) *Sprite {
 	}
 }
 
-func (s *Sprite) Draw(dst *ebiten.Image, src *ebiten.Image, projView la.Mat3, position la.Vec2) {
+func (s *Sprite) Draw(dst *ebiten.Image, src *ebiten.Image, matrix la.Mat3) {
 	op := &ebiten.DrawTrianglesOptions{
 		CompositeMode: ebiten.CompositeModeSourceOver,
 		Filter:        ebiten.FilterLinear,
@@ -72,6 +72,6 @@ func (s *Sprite) Draw(dst *ebiten.Image, src *ebiten.Image, projView la.Mat3, po
 	}
 
 	vs := s.vs
-	la.NewTranslateVec(position).Mul(projView).MulVertexDst(vs[:])
+	matrix.MulVertexDst(vs[:])
 	dst.DrawTriangles(vs[:], spriteIndices, src, op)
 }
