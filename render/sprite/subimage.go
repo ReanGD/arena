@@ -20,6 +20,17 @@ func NewSubImage(img *ebiten.Image, rect la.Rect) *SubImage {
 	}
 }
 
+func NewSubImageFromImage(img *ebiten.Image) *SubImage {
+	rc := img.Bounds()
+	return &SubImage{
+		img: img,
+		rect: la.NewRect(
+			int32(rc.Min.X), int32(rc.Min.Y),
+			int32(rc.Dx()), int32(rc.Dy()),
+		),
+	}
+}
+
 func (s *SubImage) ColorModel() color.Model {
 	return s.img.ColorModel()
 }
